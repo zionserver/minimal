@@ -357,7 +357,7 @@ minetest.register_abm({
 	chance = 200,
 	action = function(pos, node)
 		pos.y = pos.y+1
-		local n = minetest.registered_nodes[minetest.env:get_node(pos).name]
+		local n = minetest.registered_nodes[minetest.get_node(pos).name]
 		if not n then
 			return
 		end
@@ -367,14 +367,14 @@ minetest.register_abm({
 		if n.liquidtype and n.liquidtype ~= "none" then
 			return
 		end
-		if not minetest.env:get_node_light(pos) then
+		if not minetest.get_node_light(pos) then
 			return
 		end
-		if minetest.env:get_node_light(pos) < 13 then
+		if minetest.get_node_light(pos) < 13 then
 			return
 		end
 		pos.y = pos.y-1
-		minetest.env:set_node(pos, {name="minimal:dirt_with_grass"})
+		minetest.set_node(pos, {name="minimal:dirt_with_grass"})
 	end
 })
 
@@ -384,13 +384,13 @@ minetest.register_abm({
 	chance = 20,
 	action = function(pos, node)
 		pos.y = pos.y+1
-		local n = minetest.registered_nodes[minetest.env:get_node(pos).name]
+		local n = minetest.registered_nodes[minetest.get_node(pos).name]
 		if not n then
 			return
 		end
 		if not n.sunlight_propagates or (n.liquidtype and n.liquidtype ~= "none") then
 			pos.y = pos.y-1
-			minetest.env:set_node(pos, {name="minimal:dirt"})
+			minetest.set_node(pos, {name="minimal:dirt"})
 		end
 	end
 })
@@ -607,7 +607,7 @@ minetest.register_node("minimal:chest", {
 	legacy_facedir_simple = true,
 	sounds = {footstep={name="default_hard_footstep",gain=0.3}, dug={name="default_dug_node",gain=1.0}, dig={name="default_dig_choppy",gain=0.4}},
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec",
 				"size[8,9]"..
 				"list[current_name;main;0,0;8,4;]"..
@@ -617,7 +617,7 @@ minetest.register_node("minimal:chest", {
 		inv:set_size("main", 8*4)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local meta2 = meta
 		meta:from_table(oldmetadata)
 		local inv = meta:get_inventory()
@@ -625,7 +625,7 @@ minetest.register_node("minimal:chest", {
 			local stack = inv:get_stack("main", i)
 			if not stack:is_empty() then
 				local p = {x=pos.x+math.random(0, 10)/10-0.5, y=pos.y, z=pos.z+math.random(0, 10)/10-0.5}
-				minetest.env:add_item(p, stack)
+				minetest.add_item(p, stack)
 			end
 		end
 		meta:from_table(meta2:to_table())
@@ -661,7 +661,7 @@ minetest.register_node("minimal:furnace", {
 	legacy_facedir_simple = true,
 	sounds = {footstep={name="default_hard_footstep",gain=0.2}, dug={name="default_dug_node",gain=1.0}, dig={name="default_dig_cracky",gain=0.4}},
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", furnace_inactive_formspec)
 		meta:set_string("infotext", "Furnace")
 		local inv = meta:get_inventory()
@@ -670,7 +670,7 @@ minetest.register_node("minimal:furnace", {
 		inv:set_size("dst", 4)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local meta2 = meta
 		meta:from_table(oldmetadata)
 		local inv = meta:get_inventory()
@@ -679,7 +679,7 @@ minetest.register_node("minimal:furnace", {
 				local stack = inv:get_stack(list, i)
 				if not stack:is_empty() then
 					local p = {x=pos.x+math.random(0, 10)/10-0.5, y=pos.y, z=pos.z+math.random(0, 10)/10-0.5}
-					minetest.env:add_item(p, stack)
+					minetest.add_item(p, stack)
 				end
 			end
 		end
@@ -698,7 +698,7 @@ minetest.register_node("minimal:furnace_active", {
 	legacy_facedir_simple = true,
 	sounds = {footstep={name="default_hard_footstep",gain=0.2}, dug={name="default_dug_node",gain=1.0}, dig={name="default_dig_cracky",gain=0.4}},
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", furnace_inactive_formspec)
 		meta:set_string("infotext", "Furnace");
 		local inv = meta:get_inventory()
@@ -707,7 +707,7 @@ minetest.register_node("minimal:furnace_active", {
 		inv:set_size("dst", 4)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local meta2 = meta
 		meta:from_table(oldmetadata)
 		local inv = meta:get_inventory()
@@ -716,7 +716,7 @@ minetest.register_node("minimal:furnace_active", {
 				local stack = inv:get_stack(list, i)
 				if not stack:is_empty() then
 					local p = {x=pos.x+math.random(0, 10)/10-0.5, y=pos.y, z=pos.z+math.random(0, 10)/10-0.5}
-					minetest.env:add_item(p, stack)
+					minetest.add_item(p, stack)
 				end
 			end
 		end
@@ -725,16 +725,16 @@ minetest.register_node("minimal:furnace_active", {
 })
 
 function hacky_swap_node(pos,name)
-	local node = minetest.env:get_node(pos)
-	local meta = minetest.env:get_meta(pos)
+	local node = minetest.get_node(pos)
+	local meta = minetest.get_meta(pos)
 	local meta0 = meta:to_table()
 	if node.name == name then
 		return
 	end
 	node.name = name
 	local meta0 = meta:to_table()
-	minetest.env:set_node(pos,node)
-	meta = minetest.env:get_meta(pos)
+	minetest.set_node(pos,node)
+	meta = minetest.get_meta(pos)
 	meta:from_table(meta0)
 end
 
@@ -743,7 +743,7 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		for i, name in ipairs({
 				"fuel_totaltime",
 				"fuel_time",
@@ -862,15 +862,15 @@ minetest.register_abm({
 	interval = 10,
 	chance = 50,
 	action = function(pos, node)
-		if not minetest.env:get_node_light(pos) then
+		if not minetest.get_node_light(pos) then
 			return
 		end
-		if minetest.env:get_node_light(pos) < 8 then
+		if minetest.get_node_light(pos) < 8 then
 			return
 		end
 		for dy=1,5 do
 			pos.y = pos.y+dy
-			if not minetest.registered_nodes[minetest.env:get_node(pos).name].buildable_to then
+			if not minetest.registered_nodes[minetest.get_node(pos).name].buildable_to then
 				return
 			end
 			pos.y = pos.y-dy
@@ -958,8 +958,8 @@ function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, chunk_
 					local y2 = y0+y1
 					local z2 = z0+z1
 					local p2 = {x=x2, y=y2, z=z2}
-					if minetest.env:get_node(p2).name == wherein then
-						minetest.env:set_node(p2, {name=name})
+					if minetest.get_node(p2).name == wherein then
+						minetest.set_node(p2, {name=name})
 					end
 				end
 			end
@@ -982,18 +982,18 @@ end)
 
 function make_tree(pos, is_apple_tree)
 	for _=1,math.random(4,5) do
-		minetest.env:set_node(pos, {name="minimal:tree"})
+		minetest.set_node(pos, {name="minimal:tree"})
 		pos.y = pos.y+1
 	end
 	
 	pos.y = pos.y-1
 	
 	local function set_leaves(pos)
-		if minetest.registered_nodes[minetest.env:get_node(pos).name].buildable_to then
+		if minetest.registered_nodes[minetest.get_node(pos).name].buildable_to then
 			if is_apple_tree and math.random(1, 10)==1 then
-				minetest.env:set_node(pos, {name="minimal:apple"})
+				minetest.set_node(pos, {name="minimal:apple"})
 			else
-				minetest.env:set_node(pos, {name="minimal:leaves"})
+				minetest.set_node(pos, {name="minimal:leaves"})
 			end
 		end
 	end

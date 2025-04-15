@@ -491,7 +491,7 @@ minetest.register_node("minimal:water_flowing", {
 		{image="default_water.png", backface_culling=false},
 		{image="default_water.png", backface_culling=true},
 	},
-	alpha = 220,
+	use_texture_alpha = 220,
 	paramtype = "light",
 	walkable = false,
 	pointable = false,
@@ -513,7 +513,7 @@ minetest.register_node("minimal:water_source", {
 	special_tiles = {
 		{name="default_water.png", backface_culling=false},
 	},
-	alpha = 220,
+	use_texture_alpha = 220,
 	paramtype = "light",
 	walkable = false,
 	pointable = false,
